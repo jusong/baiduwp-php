@@ -59,7 +59,10 @@ class Install extends BaseController
             $dsn = "sqlite:$name";
         }
         try {
-            $db = new \PDO($dsn, $user, $pass, [\PDO::ATTR_TIMEOUT => 5]);
+		$db = new \PDO($dsn, $user, $pass, [
+			\PDO::ATTR_TIMEOUT => 5,
+			\PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/ca-certificates.crt',
+		]);
             // 如果不存在则创建数据库
             if ($driver == 'mysql') {
                 $db->exec("CREATE DATABASE IF NOT EXISTS `$name` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
@@ -99,7 +102,7 @@ DB_HOST=$host
 DB_NAME=$name
 DB_USER=$user
 DB_PASS=$pass
-DB_PORT = 3306
+DB_PORT = 4000
 DB_CHARSET = utf8
 
 DEFAULT_LANG = zh-cn
@@ -124,7 +127,10 @@ EOF;
                     $origin['connections']['install']['hostname'] = $host;
                     $origin['connections']['install']['username'] = $user;
                     $origin['connections']['install']['password'] = $pass;
-                    $origin['connections']['install']['hostport'] = '3306';
+                    $origin['connections']['install']['hostport'] = '4000';
+		    $origin['connections']['install']['params'] = [
+                        \PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/ca-certificates.crt',
+                    ];
                 } else {
                     $origin['connections']['install']['database'] = $name;
                 }

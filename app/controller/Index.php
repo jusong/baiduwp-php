@@ -6,7 +6,7 @@ use app\BaseController;
 
 class Index extends BaseController
 {
-    static $version = '4.0.3';
+    static $version = '1.0.0';
 
     public function index()
     {

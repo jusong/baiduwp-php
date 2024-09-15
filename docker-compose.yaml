@@ -1,0 +1,7 @@
+services:
+  web:
+    image: baiduwp-php
+    ports:
+      - "8002:8000"
+    volumes:
+      - .:/app
